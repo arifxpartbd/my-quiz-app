@@ -8,7 +8,11 @@ class MyAppButton extends StatelessWidget {
   VoidCallback onTab;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: onTab,
+    return ElevatedButton(
+      onPressed: onTab,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange,
+      ),
         child: Text(buttonText),
     );
   }
