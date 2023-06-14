@@ -1,34 +1,61 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quizapp/screens/signup_screen.dart';
+import 'package:quizapp/screens/home_screen.dart';
+import 'package:quizapp/screens/login_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'firebase_options.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
   // This widget is the root of your application.
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         appBarTheme: const AppBarTheme(
           elevation: 0
         ),
         primarySwatch: Colors.orange,
       ),
-      home:  const SignUpPage(),
+      home: FutureBuilder(
+        future: FirebaseAuth.instance.authStateChanges().first,
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show a loading screen if the authentication state is still loading
+            return const CircularProgressIndicator();
+          } else {
+            // Check if the user is logged in
+            if (snapshot.hasData) {
+              // User is already logged in, navigate to the home screen
+              return const HomeScreen();
+            } else {
+              // User is not logged in, navigate to the login screen
+              return const LoginScreen();
+            }
+          }
+        },
+      ),
     );
   }
+
+   Future<bool> _checkIfUserIsLoggedIn()async{
+     final currentUser = _auth.currentUser;
+     if(currentUser !=null){
+       return true;
+     }
+     return false;
+   }
 }
