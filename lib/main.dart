@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/screens/student_dashboard.dart';
 import 'package:quizapp/screens/login_screen.dart';
 import 'package:quizapp/utils/constants.dart';
-
 import 'firebase_options.dart';
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -17,12 +15,8 @@ void main() async{
 
 class MyApp extends StatelessWidget {
    MyApp({super.key});
-
   // This widget is the root of your application.
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
 
    @override
   Widget build(BuildContext context) {
@@ -30,8 +24,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-
-
         appBarTheme: const AppBarTheme(
           elevation: 2,
           titleTextStyle: TextStyle(color: Colors.white,fontSize: 18),

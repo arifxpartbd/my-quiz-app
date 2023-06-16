@@ -148,7 +148,7 @@ class _QuizTestPageState extends State<QuizTestPage> {
       backgroundColor: background,
       appBar: AppBar(
         backgroundColor: background,
-        title: const Text("Create Quiz Page"),
+        title: const Text("Quiz Test Page"),
         actions: [
           Padding(
             padding: const EdgeInsets.all(16.0),
