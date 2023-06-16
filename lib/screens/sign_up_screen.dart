@@ -1,7 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quizapp/screens/home_screen.dart';
+import 'package:quizapp/screens/student_dashboard.dart';
 import 'package:quizapp/widges/my_app_button.dart';
 import 'package:quizapp/widges/my_text_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -125,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   if(mounted){
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-                      return const HomeScreen();
+                      return const StudentDashboard();
                     }), (route) => false);
                   }
                 }

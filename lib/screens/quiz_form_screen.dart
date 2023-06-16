@@ -3,10 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/quiz_form_model.dart';
 
-
-
-
 class QuizFormScreen extends StatefulWidget {
+  const QuizFormScreen({super.key, required this.mainTitle, required this.description, required this.time});
+
+  final String mainTitle, description, time;
+
   @override
   _QuizFormScreenState createState() => _QuizFormScreenState();
 }
@@ -33,8 +34,11 @@ class _QuizFormScreenState extends State<QuizFormScreen> {
       };
 
       Question newQuestion = Question(
-        //id: 'question${questions.length + 1}',
-        id: questionId,
+        mainTitle: widget.mainTitle,
+        description: widget.description,
+        time: widget.time,
+        id: 'question${questions.length + 1}',
+        //id: questionId,
         title: question,
         options: options,
       );
@@ -188,9 +192,9 @@ class _QuizFormScreenState extends State<QuizFormScreen> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    title: 'Quiz App',
-    home: QuizFormScreen(),
-  ));
-}
+// void main() {
+//   runApp(const MaterialApp(
+//     title: 'Quiz App',
+//     home: QuizFormScreen(),
+//   ));
+// }

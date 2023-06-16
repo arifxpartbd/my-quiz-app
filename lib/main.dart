@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quizapp/screens/home_screen.dart';
+import 'package:quizapp/screens/student_dashboard.dart';
 import 'package:quizapp/screens/login_screen.dart';
+import 'package:quizapp/utils/constants.dart';
 
 import 'firebase_options.dart';
 
@@ -20,16 +21,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
+
+
+
+   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+
+
         appBarTheme: const AppBarTheme(
-          elevation: 0
+          elevation: 2,
+          titleTextStyle: TextStyle(color: Colors.white,fontSize: 18),
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: background
         ),
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.orange
       ),
       home: FutureBuilder(
         future: FirebaseAuth.instance.authStateChanges().first,
@@ -41,7 +50,7 @@ class MyApp extends StatelessWidget {
             // Check if the user is logged in
             if (snapshot.hasData) {
               // User is already logged in, navigate to the home screen
-              return const HomeScreen();
+              return const StudentDashboard();
             } else {
               // User is not logged in, navigate to the login screen
               return const LoginScreen();

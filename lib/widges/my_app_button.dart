@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/utils/constants.dart';
 class MyAppButton extends StatelessWidget {
    MyAppButton({
     super.key, required this.buttonText,
@@ -11,9 +12,9 @@ class MyAppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTab,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange,
+        backgroundColor: background,
       ),
-        child: Text(buttonText),
+        child: Text(buttonText,style: TextStyle(color: Colors.white),),
     );
   }
 }

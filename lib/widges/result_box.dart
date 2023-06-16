@@ -7,25 +7,27 @@ class ResultBox extends StatelessWidget {
     required this.startOverButton,
     required this.result,
     required this.questionLength,
+    required this.submitResult,
   }) : super(key: key);
 
   final int result;
   final int questionLength;
   final VoidCallback startOverButton;
+  final VoidCallback submitResult;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Padding(
-        padding: EdgeInsets.all(70),
+        padding: const EdgeInsets.all(70),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Result",
               style: TextStyle(color: Colors.black, fontSize: 22),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             CircleAvatar(
@@ -33,10 +35,10 @@ class ResultBox extends StatelessWidget {
               radius: 60,
               child: Text(
                 "$result/$questionLength",
-                style: TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 30),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
@@ -45,14 +47,26 @@ class ResultBox extends StatelessWidget {
                   : result < questionLength / 2
                       ? "Try Again ?"
                       : "Great!",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
               ),
             ),
             MaterialButton(
               color: Colors.orange,
-              onPressed:startOverButton,
-              child: Text("Start Over",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),)
+              onPressed: startOverButton,
+              child: const Text(
+                "Start Over",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                ),
+              ),
+            ),
+            MaterialButton(
+              color: background,
+              onPressed: submitResult,
+              child: const Text("Submit Result",style: TextStyle(color: Colors.white),),
+            )
           ],
         ),
       ),

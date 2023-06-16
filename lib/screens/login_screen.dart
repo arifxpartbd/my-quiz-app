@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizapp/screens/home_screen.dart';
+import 'package:quizapp/screens/student_dashboard.dart';
 import 'package:quizapp/screens/sign_up_screen.dart';
+import 'package:quizapp/screens/teacher_dashboard.dart';
 import '../utils/myStyle.dart';
 import '../widges/my_app_button.dart';
 import '../widges/my_text_field_widget.dart';
@@ -66,12 +67,30 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user != null) {
         // Login successful, navigate to the home screen or perform any desired actions
         print('Login successful: ${user.email}');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
+
+        if(loginUser == "Student"){
+          if(mounted){
+
+          }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const StudentDashboard(),
+            ),
+          );
+        }else{
+          if(mounted){
+
+          }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TeacherDashboard(),
+            ),
+          );
+        }
+
+
       } else {
         _isLoading = false;
         setState(() {
@@ -158,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(onPressed: (){
 
-                      }, child: const Text("Forget Password"))
+                      }, child: const Text("Forget Password",style: TextStyle(color: Colors.black)))
                     ],
                   ),
                   _isLoading?const Center(child: CircularProgressIndicator(),):
@@ -166,19 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: MyAppButton(
                       onTab: () async{
-                        // if(_globalKey.currentState!.validate()){
-                        //   User? user = await signUpWithEmailAndPassword(emailET.text, passwordET.text);
-                        //   if(user !=null){
-                        //     print('User email: ${user.email}');
-                        //     print('User ID: ${user.uid}');
-                        //
-                        //     if(mounted){
-                        //       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-                        //         return const HomeScreen();
-                        //       }), (route) => false);
-                        //     }
-                        //   }
-                        // }
+
                         if(_globalKey.currentState!.validate()){
                           loginWithEmailAndPassword(emailET.text, passwordET.text);
                         }
@@ -196,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }));
 
                         },
-                        child: const Text("Create New Account"),
+                        child: const Text("Create New Account",style: TextStyle(color: Colors.black)),
                       ),
 
                       _isTeacher? TextButton(
@@ -208,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           });
                         },
-                        child:  Text(buttonText),
+                        child:  Text(buttonText,style: const TextStyle(color: Colors.black)),
                       ):TextButton(onPressed: (){
                         loginUser = "Student";
                         buttonText = "Teacher Login";
@@ -216,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         setState(() {
 
                         });
-                      }, child: Text(buttonText))
+                      }, child: Text(buttonText,style: const TextStyle(color: Colors.black),),)
                     ],
                   )
                 ],

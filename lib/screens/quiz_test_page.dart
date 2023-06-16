@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/utils/constants.dart';
 import 'package:quizapp/widges/next_button.dart';
@@ -17,6 +18,8 @@ class QuizTestPage extends StatefulWidget {
 
 class _QuizTestPageState extends State<QuizTestPage> {
 
+  User? currentUser;
+
   List<Question> _questions = [
     Question(id: "10", title: "Question", options: {"5": false, "6": true}),
   ];
@@ -26,6 +29,11 @@ class _QuizTestPageState extends State<QuizTestPage> {
   void initState() {
     super.initState();
     fetchQuestionsFromFirestore();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      setState(() {
+        currentUser = user;
+      });
+    });
   }
 
   Future<void> fetchQuestionsFromFirestore() async {
@@ -53,6 +61,27 @@ class _QuizTestPageState extends State<QuizTestPage> {
     }
   }
 
+
+  Future<void> saveStudentResult(String email, int score) async {
+    try {
+      // Access the Firestore collection where you want to save the results
+      CollectionReference resultsCollection = FirebaseFirestore.instance.collection('results');
+
+      // Create a new document with a unique ID
+      DocumentReference resultDoc = resultsCollection.doc();
+
+      // Set the document data with the student's email and score
+      await resultDoc.set({
+        'email': email,
+        'score': score,
+      });
+
+      print('Student result saved successfully!');
+    } catch (e) {
+      print('Error saving student result: $e');
+    }
+  }
+
   int score = 0;
   int index = 0;
   bool isPressed = false;
@@ -68,13 +97,19 @@ class _QuizTestPageState extends State<QuizTestPage> {
     Navigator.pop(context);
   }
 
-  void nextQuestion() {
+  void nextQuestion() async{
     if (index == _questions.length -1) {
       //this is the block where the questions end.
       showDialog(
           barrierDismissible: false,
           context: context, builder: (ctx)=>ResultBox(result: score,questionLength: _questions.length,
-        startOverButton: startOver,));
+        startOverButton: startOver,
+      submitResult: (){
+            saveStudentResult(currentUser?.email.toString()??"", score).then((value){
+              return Navigator.pop(context);
+            });
+      },
+      ));
       return;
     } else {
       if (isPressed) {
@@ -117,7 +152,7 @@ class _QuizTestPageState extends State<QuizTestPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text("Score: $score",style: const TextStyle(fontSize: 18),),
+            child: Text("Score: $score",style: const TextStyle(fontSize: 18, color: Colors.white),),
           )
         ],
       ),

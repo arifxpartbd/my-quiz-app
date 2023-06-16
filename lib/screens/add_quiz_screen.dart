@@ -12,40 +12,69 @@ class AddQuizScreen extends StatefulWidget {
 
 class _AddQuizScreenState extends State<AddQuizScreen> {
 
-  TextEditingController titleET = TextEditingController(text: "");
+  TextEditingController mainTitleET = TextEditingController(text: "");
+  TextEditingController descriptionED = TextEditingController(text: "");
+  TextEditingController timeET = TextEditingController(text: "");
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Quiz Info"),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          MyTextField(
-            textEditingController: titleET,
-            lableText: "Title",
-          ),
-          const SizedBox(height: 8,),
+      body: Form(
+        key: _globalKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            MyTextField(
+              validator: (value){
+                if(mainTitleET.text.isEmpty){
+                  return "Please type title";
+                }
+                return null;
+              },
+              textEditingController: mainTitleET,
+              lableText: "Title",
+            ),
+            const SizedBox(height: 8,),
 
-          MyTextField(
-            textEditingController: titleET,
-            lableText: "Time",
-          ),
+            MyTextField(
+              validator: (value){
+                if(timeET.text.isEmpty){
+                  return "Please type time";
+                }
+                return null;
+              },
+              textEditingController: timeET,
+              lableText: "Time",
+            ),
 
-          const SizedBox(height: 8,),
-          MyTextField(
-            maxLine: 5,
-            textEditingController: titleET,
-            lableText: "Description",
-          ),
-          SizedBox(height: 8,),
-          MyAppButton(buttonText: "Next", onTab: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return QuizFormScreen();
-            }));
-          })
-        ],
+            const SizedBox(height: 8,),
+            MyTextField(
+              validator: (value){
+                if(descriptionED.text.isEmpty){
+                  return "Please type description";
+                }
+                return null;
+              },
+              maxLine: 5,
+              textEditingController: descriptionED,
+              lableText: "Description",
+            ),
+            const SizedBox(height: 8,),
+            MyAppButton(buttonText: "Next", onTab: (){
+
+              if(_globalKey.currentState!.validate()){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return QuizFormScreen(mainTitle: mainTitleET.text,description: descriptionED.text,
+                    time: timeET.text,);
+                }));
+              }
+            })
+          ],
+        ),
       ),
     );
   }

@@ -1,23 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/screens/add_quiz_screen.dart';
-import 'package:quizapp/screens/quiz_form_screen.dart';
 import 'package:quizapp/screens/quiz_test_page.dart';
 import 'package:quizapp/screens/login_screen.dart';
+import 'package:quizapp/screens/result_board.dart';
 import 'package:quizapp/utils/myStyle.dart';
-
 import '../widges/home_card_button.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class TeacherDashboard extends StatefulWidget {
+  const TeacherDashboard({Key? key}) : super(key: key);
 
   //final User? user;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TeacherDashboard> createState() => _TeacherDashboardState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TeacherDashboardState extends State<TeacherDashboard> {
 
   User? currentUser;
 
@@ -52,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("DashBoard"),
+        title: const Text("Teacher Dashboard"),
         actions: [
           IconButton(onPressed: (){
             signOut();
@@ -83,6 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 8,),
+
+          //this row for teacher
           Row(
             children: [
               Expanded(
@@ -92,10 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: (){
 
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return AddQuizScreen();
+                      return const AddQuizScreen();
                     }));
                   },
-                  cardText: "View Result",
+                  cardText: "Add Quiz",
                 ),
               ),
               const SizedBox(width: 8,),
@@ -103,8 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 flex: 1,
                 child: HomeCardButton(
                   iconData: Icons.local_offer,
-                  onTap: (){},
-                  cardText: "View All Quiz",
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return ResultBoardScreen();
+                    }));
+                  },
+                  cardText: "View Result",
                 ),
               ),
 
@@ -113,35 +118,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const SizedBox(height: 8,),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: HomeCardButton(
-                  iconData: Icons.area_chart,
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return QuizFormScreen();
-                    }));
-                  },
-                  cardText: "View Quiz Result",
-                ),
-              ),
-              const SizedBox(width: 8,),
-              Expanded(
-                flex: 1,
-                child: HomeCardButton(
-                  iconData: Icons.local_offer,
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return const QuizTestPage();
-                    }));
-                  },
-                  cardText: "Add Quiz",
-                ),
-              ),
-            ],
-          ),
+
+          //this row for student
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       flex: 1,
+          //       child: HomeCardButton(
+          //         iconData: Icons.area_chart,
+          //         onTap: (){
+          //           Navigator.push(context, MaterialPageRoute(builder: (context){
+          //             return ResultBoardScreen();
+          //           }));
+          //         },
+          //         cardText: "Result Board",
+          //       ),
+          //     ),
+          //     const SizedBox(width: 8,),
+          //     Expanded(
+          //       flex: 1,
+          //       child: HomeCardButton(
+          //         iconData: Icons.local_offer,
+          //         onTap: (){
+          //           Navigator.push(context, MaterialPageRoute(builder: (context){
+          //             return const QuizTestPage();
+          //           }));
+          //         },
+          //         cardText: "Quiz Test",
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
