@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quizapp/quiz_create_screen.dart';
+import 'package:quizapp/screens/add_quiz_screen.dart';
+import 'package:quizapp/screens/quiz_form_screen.dart';
+import 'package:quizapp/screens/quiz_test_page.dart';
 import 'package:quizapp/screens/login_screen.dart';
 import 'package:quizapp/utils/myStyle.dart';
 
@@ -34,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await FirebaseAuth.instance.signOut().then((value){
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-          return LoginScreen();
+          return const LoginScreen();
         }), (route) => false);
       });
       // Perform any additional actions after sign out
@@ -54,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(onPressed: (){
             signOut();
-          }, icon: Icon(Icons.logout))
+          }, icon: const Icon(Icons.logout))
         ],
       ),
       body: ListView(
@@ -87,7 +89,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 flex: 1,
                 child: HomeCardButton(
                   iconData: Icons.area_chart,
-                  onTap: (){},
+                  onTap: (){
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return AddQuizScreen();
+                    }));
+                  },
                   cardText: "View Result",
                 ),
               ),
@@ -105,14 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
             ],
           ),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Row(
             children: [
               Expanded(
                 flex: 1,
                 child: HomeCardButton(
                   iconData: Icons.area_chart,
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return QuizFormScreen();
+                    }));
+                  },
                   cardText: "View Quiz Result",
                 ),
               ),
@@ -123,15 +134,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   iconData: Icons.local_offer,
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return QuizCreateScreen();
+                      return const QuizTestPage();
                     }));
                   },
                   cardText: "Add Quiz",
                 ),
               ),
-
-
-
             ],
           ),
         ],
